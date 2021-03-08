@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 )
 
 //Person ...
@@ -39,5 +40,29 @@ func main(){
 	}
 
 	fmt.Println("Back into a go datastructure",xp2)
+
+
+	http.HandleFunc("/encode",foo)
+	http.HandleFunc("/decode",bar)
+	http.ListenAndServe(":8080",nil)
+
+}
+
+func foo(w http.ResponseWriter,r *http.Request){
+
+
+	p3 := Person{
+		First: "Sia",
+	}
+
+	err := json.NewEncoder(w).Encode(p3)
+	if err!= nil {
+		log.Println("Encoded into JSON data",err)
+	}
+
+}
+
+func bar(w http.ResponseWriter,r *http.Request){
+
 
 }
